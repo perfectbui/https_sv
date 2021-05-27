@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  backend:
+    container_name: authenication_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - proxy
+  
+  proxy:
+    image: nginx
+    container_name: authenication_app-proxy
+    ports:
+      - "443:443"
+    volumes:
+      - ./common.crt:/etc/ssl/common.crt
+      - ./common.key:/etc/ssl/common.key
+      - ./nginx.conf:/etc/nginx/nginx.conf
